@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Generator — Think Big</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #080136;
+            --navy-heading: #0c0250;
+            --green: #29ac4a;
+            --green-hover: #22963f;
+            --surface: #ffffff;
+            --surface-alt: #f5f6fa;
+            --border: #e0e2ee;
+            --text: #555566;
+            --text-dark: #0c0250;
+            --text-meta: #8899cc;
+            --text-muted: #999999;
+            --radius: 10px;
+            --shadow: 0 4px 24px rgba(8, 1, 54, 0.06);
+            --shadow-lg: 0 12px 48px rgba(8, 1, 54, 0.10);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--surface-alt);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            background: var(--navy);
+            color: white;
+            padding: 48px 24px 72px;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--green);
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .logo .green { color: var(--green); }
+
+        .page-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 15px;
+            color: var(--text-meta);
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ===== MAIN CARD ===== */
+        .container {
+            max-width: 720px;
+            margin: -36px auto 60px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            padding: 40px;
+            border-top: 3px solid var(--green);
+        }
+
+        /* ===== SECTION LABELS ===== */
+        .section-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--navy-heading);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--green);
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-dark);
+        }
+
+        label .optional {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 6px;
+            font-size: 15px;
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text);
+            background: var(--surface);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(41, 172, 74, 0.12);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #b0b3c6;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea.large {
+            min-height: 160px;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%23555566'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 32px 0;
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .submit-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: var(--green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.3px;
+        }
+
+        .submit-btn:hover {
+            background: var(--green-hover);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.99);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ===== LOADING OVERLAY ===== */
+        .status-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 1, 54, 0.88);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-overlay.active {
+            display: flex;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 48px;
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            border-top: 3px solid var(--green);
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--border);
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .status-card h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            color: var(--navy-heading);
+            margin-bottom: 8px;
+        }
+
+        .status-card p {
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .status-steps {
+            text-align: left;
+            margin-top: 24px;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .status-step.active {
+            color: var(--navy-heading);
+            font-weight: 600;
+        }
+
+        .status-step.done {
+            color: var(--green);
+        }
+
+        .status-step .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* ===== SUCCESS STATE ===== */
+        .success-card {
+            display: none;
+            background: white;
+            border-radius: var(--radius);
+            padding: 56px 48px;
+            text-align: center;
+            max-width: 520px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            border-top: 3px solid var(--green);
+        }
+
+        .success-card.active {
+            display: block;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 32px;
+            color: white;
+        }
+
+        .success-card h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            color: var(--navy-heading);
+            margin-bottom: 8px;
+        }
+
+        .success-card .success-detail {
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .success-card .proposal-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--navy-heading);
+            margin: 12px 0 24px;
+            padding: 12px 20px;
+            background: var(--surface-alt);
+            border-radius: 6px;
+            border-left: 3px solid var(--green);
+        }
+
+        .doc-link {
+            display: inline-block;
+            padding: 14px 40px;
+            background: var(--green);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .doc-link:hover { background: var(--green-hover); }
+
+        .error-msg {
+            color: #c0392b;
+            background: rgba(192, 57, 43, 0.06);
+            border: 1px solid rgba(192, 57, 43, 0.15);
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 16px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .close-btn {
+            margin-top: 12px;
+            padding: 12px 24px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.2s;
+            width: 100%;
+        }
+
+        .close-btn:hover {
+            color: var(--navy-heading);
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            text-align: center;
+            padding: 0 24px 40px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .page-footer a {
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+            .card { padding: 24px; }
+            .page-header { padding: 32px 16px 56px; }
+            .page-header h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <div class="logo">TH<span class="green">I</span>NK  B<span class="green">I</span>G.</div>
+    <h1>Proposal Generator</h1>
+    <p>Fill out the details below and we'll generate a polished, strategic proposal for your client.</p>
+</div>
+
+<div class="container">
+    <div class="card">
+        <form id="proposalForm">
+            <!-- CLIENT INFO -->
+            <div class="section-label">Client Information</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="clientName">Client / Organization Name</label>
+                    <input type="text" id="clientName" name="clientName" required placeholder="e.g. Acme Corp">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Your Email</label>
+                    <input type="email" id="contactEmail" name="contactEmail" required placeholder="you@wethinkbig.io">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="industry">Industry / Vertical</label>
+                    <select id="industry" name="industry" required>
+                        <option value="">Select an industry...</option>
+                        <option value="Technology / SaaS">Technology / SaaS</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Financial Services">Financial Services</option>
+                        <option value="Education">Education</option>
+                        <option value="Retail / E-commerce">Retail / E-commerce</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Government / Public Sector">Government / Public Sector</option>
+                        <option value="Nonprofit">Nonprofit</option>
+                        <option value="Media / Entertainment">Media / Entertainment</option>
+                        <option value="Professional Services">Professional Services</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="urgency">Proposal Urgency</label>
+                    <select id="urgency" name="urgency" required>
+                        <option value="">How soon is this needed?</option>
+                        <option value="Urgent — needed ASAP">Urgent — ASAP</option>
+                        <option value="Standard — within a week">Standard — within a week</option>
+                        <option value="Low priority — flexible timeline">Low priority — flexible</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- PROJECT DETAILS -->
+            <div class="section-label">Project Details</div>
+
+            <div class="form-group">
+                <label for="projectDescription">Project Description</label>
+                <textarea id="projectDescription" name="projectDescription" class="large" required
+                    placeholder="Describe the project in as much detail as you can. What's the problem? What does the client need? What are we proposing to build or deliver?"></textarea>
+                <div class="hint">The more detail you provide, the better the proposal. Don't hold back.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="desiredOutcome">Desired Outcome</label>
+                <textarea id="desiredOutcome" name="desiredOutcome" required
+                    placeholder="What does success look like? What should the client walk away with?"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="timeline">Timeline</label>
+                    <input type="text" id="timeline" name="timeline" placeholder="e.g. 6 weeks, Q3 2026">
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget Range</label>
+                    <input type="text" id="budget" name="budget" placeholder="e.g. $15K-$25K">
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- STRATEGIC CONTEXT -->
+            <div class="section-label">Strategic Context</div>
+
+            <div class="form-group">
+                <label for="competitorContext">Competitor Context <span class="optional">(Optional)</span></label>
+                <textarea id="competitorContext" name="competitorContext"
+                    placeholder="Are there competitors involved? What are they offering? What makes our approach different?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tone">Preferred Tone</label>
+                <select id="tone" name="tone">
+                    <option value="Professional & Confident">Professional & Confident</option>
+                    <option value="Conversational & Approachable">Conversational & Approachable</option>
+                    <option value="Formal & Executive">Formal & Executive</option>
+                    <option value="Bold & Visionary">Bold & Visionary</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="additionalNotes">Additional Notes <span class="optional">(Optional)</span></label>
+                <textarea id="additionalNotes" name="additionalNotes"
+                    placeholder="Anything else we should know? Special requirements, past relationship history, key stakeholders?"></textarea>
+            </div>
+
+            <div class="error-msg" id="errorMsg"></div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Generate Proposal</button>
+        </form>
+    </div>
+</div>
+
+<div class="page-footer">
+    Confidential & Proprietary &nbsp;|&nbsp; <a href="https://www.wethinkbig.io" target="_blank">wethinkbig.io</a>
+</div>
+
+<!-- Loading Overlay -->
+<div class="status-overlay" id="statusOverlay">
+    <div class="status-card" id="loadingState">
+        <div class="spinner"></div>
+        <h2>Generating Your Proposal</h2>
+        <p>Crafting a strategic, tailored proposal. This typically takes 30-60 seconds.</p>
+        <div class="status-steps">
+            <div class="status-step active" id="step1">
+                <span class="icon">&#9679;</span> Analyzing project requirements
+            </div>
+            <div class="status-step" id="step2">
+                <span class="icon">&#9679;</span> Determining proposal strategy
+            </div>
+            <div class="status-step" id="step3">
+                <span class="icon">&#9679;</span> Generating proposal content
+            </div>
+            <div class="status-step" id="step4">
+                <span class="icon">&#9679;</span> Creating Google Doc
+            </div>
+            <div class="status-step" id="step5">
+                <span class="icon">&#9679;</span> Logging to tracker
+            </div>
+        </div>
+    </div>
+
+    <!-- Success State -->
+    <div class="success-card" id="successState">
+        <div class="success-icon">&#10003;</div>
+        <h2>Proposal Generated</h2>
+        <p class="success-detail">Your proposal has been created and logged to the tracker.</p>
+        <div class="proposal-title" id="proposalTitle"></div>
+        <a class="doc-link" id="docLink" href="#" target="_blank">Open Proposal Document</a>
+        <button class="close-btn" onclick="resetForm()">Generate Another Proposal</button>
+    </div>
+</div>
+
+<script>
+    // ==========================
+    // CONFIGURATION
+    // ==========================
+    // Replace this with your deployed Google Apps Script Web App URL
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxnjYf7zdI5upw4Q0dS6ASlhASQ_Ntq0uH9YhNEk-0J8ud8B1MeWYTH1fYAJKvOCpql/exec';
+
+    // ==========================
+    // FORM SUBMISSION
+    // ==========================
+    const form = document.getElementById('proposalForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('statusOverlay');
+    const loadingState = document.getElementById('loadingState');
+    const successState = document.getElementById('successState');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorMsg.style.display = 'none';
+
+        if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_WEB_APP_URL_HERE') {
+            errorMsg.textContent = 'Setup required: Please deploy the Google Apps Script and update the APPS_SCRIPT_URL in index.html.';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        // Collect form data
+        const formData = {
+            clientName: form.clientName.value.trim(),
+            contactEmail: form.contactEmail.value.trim(),
+            industry: form.industry.value,
+            urgency: form.urgency.value,
+            projectDescription: form.projectDescription.value.trim(),
+            desiredOutcome: form.desiredOutcome.value.trim(),
+            timeline: form.timeline.value.trim(),
+            budget: form.budget.value.trim(),
+            competitorContext: form.competitorContext.value.trim(),
+            tone: form.tone.value,
+            additionalNotes: form.additionalNotes.value.trim(),
+            submittedAt: new Date().toISOString()
+        };
+
+        // Show loading overlay
+        submitBtn.disabled = true;
+        overlay.classList.add('active');
+        loadingState.style.display = 'block';
+        successState.classList.remove('active');
+
+        // Animate steps
+        animateSteps();
+
+        try {
+            const response = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Show success
+                loadingState.style.display = 'none';
+                successState.classList.add('active');
+                document.getElementById('docLink').href = result.docUrl;
+                document.getElementById('proposalTitle').textContent = result.title;
+            } else {
+                throw new Error(result.error || 'Something went wrong generating the proposal.');
+            }
+        } catch (err) {
+            overlay.classList.remove('active');
+            errorMsg.textContent = err.message || 'Failed to connect. Check your Apps Script URL and try again.';
+            errorMsg.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+
+    function animateSteps() {
+        const steps = [
+            document.getElementById('step1'),
+            document.getElementById('step2'),
+            document.getElementById('step3'),
+            document.getElementById('step4'),
+            document.getElementById('step5')
+        ];
+        const delays = [0, 5000, 12000, 25000, 35000];
+
+        steps.forEach((step, i) => {
+            step.className = 'status-step';
+            step.querySelector('.icon').textContent = '\u25CF';
+        });
+        steps[0].classList.add('active');
+
+        delays.forEach((delay, i) => {
+            if (i > 0) {
+                setTimeout(() => {
+                    steps[i - 1].classList.remove('active');
+                    steps[i - 1].classList.add('done');
+                    steps[i - 1].querySelector('.icon').textContent = '\u2713';
+                    steps[i].classList.add('active');
+                }, delay);
+            }
+        });
+    }
+
+    function resetForm() {
+        overlay.classList.remove('active');
+        loadingState.style.display = 'block';
+        successState.classList.remove('active');
+        form.reset();
+    }
+</script>
+
+</body>
+</html>
